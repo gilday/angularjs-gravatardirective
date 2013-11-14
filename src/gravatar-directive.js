@@ -9,7 +9,7 @@
  */
 
 angular.module('ui-gravatar', ['md5']).
-    factory('gravatarImageService', function (md5) {
+    factory('gravatarImageService', ['md5', function (md5) {
         return {
             getImageSrc : function(value, size, rating, defaultUrl, secure) {
                 // convert the value to lower case and then to a md5 hash
@@ -18,7 +18,7 @@ angular.module('ui-gravatar', ['md5']).
                 return src;
             }
         };
-    }).
+    }]).
     directive('gravatarImage', ['gravatarImageService', function (gravatarImageService) {
         return {
             restrict:"EAC",
@@ -27,7 +27,7 @@ angular.module('ui-gravatar', ['md5']).
                 // watch to notify us when the value changes
                 scope.$watch(attrs.gravatarEmail, function (value) {
                     // let's do nothing if the value comes in empty, null or undefined
-                    if ((value !== null) && (value !== undefined) && (value !== '') && (null != value.match(/.*@.*\..{2}/))) {
+                    if ((value !== null) && (value !== undefined) && (value !== '') && (null !== value.match(/.*@.*\..{2}/))) {
                         // parse the size attribute
                         var size = attrs.gravatarSize || 40;
                         // parse the ratings attribute
